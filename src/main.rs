@@ -1,8 +1,9 @@
+mod display;
 mod structs;
 mod utils;
-use crate::structs::TODO;
-use crate::structs::TODODir;
-use crate::structs::TODOFile;
+use structs::TODO;
+use structs::TODODir;
+use structs::TODOFile;
 
 fn main() {
     // let list_files = list_files_in_directory(String::from("./tests"));
@@ -17,6 +18,7 @@ fn main() {
     // );
     let todo_dir = make_todo_from_directory(String::from("./tests"));
     println!("{:?}", todo_dir);
+    display::display_directory(todo_dir, 0);
 }
 
 use std::fs;
@@ -71,6 +73,7 @@ fn make_todo_from_directory(path: String) -> TODODir {
 }
 
 fn make_todo_from_file(path: String) -> TODOFile {
+    let name = utils::from_path_to_name(path.clone());
     let mut file = File::open(path).expect("Failed to open file");
     let mut content = String::new();
     file.read_to_string(&mut content)
@@ -78,7 +81,7 @@ fn make_todo_from_file(path: String) -> TODOFile {
     let lines = content.lines();
     let mut now_todo: TODO;
     let mut file_todo = TODOFile {
-        name: String::new(),
+        name,
         todos: vec![],
     };
     let mut line = 0;

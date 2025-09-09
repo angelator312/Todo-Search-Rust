@@ -1,8 +1,12 @@
 [package]
-name = "todosearch"
-version = "0.1.0"
+name = "todo-search"
+version = "0.0.1"
 edition = "2024"
 
 [dependencies]
 regex = "1.11.2"
 walkdir = "2"
+zed_extension_api = "0.6.0"
+
+[lib]
+crate-type = ["cdylib"]

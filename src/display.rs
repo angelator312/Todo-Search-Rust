@@ -23,12 +23,11 @@ pub fn display_file(file: TODOFile, depth: usize) {
     }
 }
 pub fn display_todo(todo: TODO, depth: usize) {
-    let mut content = todo.line.to_string();
-    content.push_str(" : ");
+    let mut content = "❎ ".to_string();
     content.push_str(&todo.text);
     display_content(content, depth);
 }
-
+const STRING_ON_NEW_LEVEL: &str = "  ";
 fn display_content(content: String, depth: usize) {
-    println!("{}{}", " ".repeat(depth), content)
+    println!("{}{}", STRING_ON_NEW_LEVEL.repeat(depth), content)
 }

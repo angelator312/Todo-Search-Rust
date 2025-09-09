@@ -29,11 +29,11 @@ pub fn list_dirs_in_directory(path: String) -> Vec<String> {
     return list_files_or_directories_in_directory(path, true);
 }
 
-pub fn print_everything_in_array(arr: Vec<String>) {
-    for e in arr.into_iter() {
-        println!("path:{}", e)
-    }
-}
+// pub fn print_everything_in_array(arr: Vec<String>) {
+//     for e in arr.into_iter() {
+//         log::log_path(&e)
+//     }
+// }
 // use regex::Regex;
 use std::fs::File;
 use std::io::Read;
@@ -49,7 +49,7 @@ pub fn make_todo_from_directory(path: String) -> TODODir {
         todo_dir.dirs.push(make_todo_from_directory(e));
     }
     for e in list_files_in_directory(path).into_iter() {
-        println!("file:{}", e);
+        log::log_file_name(&e);
         todo_dir.files.push(make_todo_from_file(e));
     }
     return todo_dir;

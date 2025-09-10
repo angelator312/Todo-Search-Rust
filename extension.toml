@@ -5,3 +5,12 @@ schema_version = 1
 authors = ["Angelator312 <angelator312@angelator312.top>"]
 description = "Extension that adds todo tree on the sidebar"
 repository = "https://github.com/your-name/my-zed-extension"
+
+
+[slash_commands.echo]
+description = "echoes the provided input"
+requires_argument = true
+
+[slash_commands.pick-one]
+description = "pick one of three options"
+requires_argument = true

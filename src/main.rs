@@ -44,7 +44,7 @@ fn main() {
 }
 
 fn show_and_scan_directory(path: &String) {
-    let todo_dir = mylib::make_todo_from_directory(path);
+    let todo_dir = mylib::scan_directory_for_todos(path);
     // log::debug("{:?}", todo_dir);
     display::display_directory(&todo_dir, &0);
     // extension::

@@ -38,7 +38,7 @@ pub fn list_dirs_in_directory(path: &String) -> Vec<String> {
 use std::fs::File;
 use std::io::Read;
 
-pub fn make_todo_from_directory(path: &String) -> TODODir {
+pub fn scan_directory_for_todos(path: &String) -> TODODir {
     let mut todo_dir = TODODir {
         name: utils::from_path_to_name(path),
         files: vec![],
@@ -46,16 +46,16 @@ pub fn make_todo_from_directory(path: &String) -> TODODir {
     };
     for e in list_dirs_in_directory(path).into_iter() {
         log::log_dir_name(&e);
-        todo_dir.dirs.push(make_todo_from_directory(&e));
+        todo_dir.dirs.push(scan_directory_for_todos(&e));
     }
     for e in list_files_in_directory(path).into_iter() {
         log::log_file_name(&e);
-        todo_dir.files.push(make_todo_from_file(&e));
+        todo_dir.files.push(scan_file_for_todo(&e));
     }
     return todo_dir;
 }
 
-pub fn make_todo_from_file(path: &String) -> TODOFile {
+pub fn scan_file_for_todo(path: &String) -> TODOFile {
     let name = utils::from_path_to_name(path);
     let mut file = File::open(path).expect("Failed to open file");
     let mut content = String::new();
@@ -69,7 +69,7 @@ pub fn make_todo_from_file(path: &String) -> TODOFile {
     };
     let mut line = 0;
     for e in lines {
-        now_todo = make_todo_from_line(&e.to_string());
+        now_todo = scan_line_for_todo(&e.to_string());
         if now_todo.line == -1 {
             continue;
         }
@@ -80,7 +80,7 @@ pub fn make_todo_from_file(path: &String) -> TODOFile {
     return file_todo;
 }
 
-pub fn make_todo_from_line(line: &String) -> TODO {
+pub fn scan_line_for_todo(line: &String) -> TODO {
     if let Some(todo) = line.find("TODO:") {
         return TODO {
             text: { utils::string_sub_to_end(line, todo) },

@@ -31,3 +31,5 @@ const STRING_ON_NEW_LEVEL: &str = "  ";
 fn display_content(content: &String, depth: &usize) {
     println!("{}{}", STRING_ON_NEW_LEVEL.repeat(*depth), content)
 }
+
+pub fn show_help_for_function() {}

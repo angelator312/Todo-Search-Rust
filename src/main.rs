@@ -32,14 +32,16 @@ const DEFAULT_DIRECTORY_FOR_SCAN: &str = "./tests";
 ///     ❎ TODO: See everything in app
 /// ```
 fn main() {
-    let mut args: Vec<String> = env::args().collect();
-    args = dbg!(args);
+    let args: Vec<String> = env::args().collect();
+    // args = dbg!(args);
     if args.len() > 1 {
         if args[1] == SCAN_DIRECTORY_COMMAND {
             let a = &DEFAULT_DIRECTORY_FOR_SCAN.to_string();
             show_and_scan_directory(if args.len() >= 3 { &args[2] } else { a });
         } else if args[1] == DONE_FILE_COMMAND {
         }
+    } else {
+        display::show_help_for_function();
     }
 }
 

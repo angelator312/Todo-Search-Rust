@@ -12,8 +12,8 @@ pub fn log_dir_name(name: &String) {
     }
 }
 
-pub fn log_path(path: &String) {
-    if DEBUG_LOGS_ALLOWED {
-        println!("path:{}", *path);
-    }
-}
+// pub fn log_path(path: &String) {
+//     if DEBUG_LOGS_ALLOWED {
+//         println!("path:{}", *path);
+//     }
+// }

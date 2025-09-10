@@ -1,14 +1,14 @@
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct TODO {
     pub line: i32,
     pub text: String,
 }
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct TODOFile {
     pub name: String,
     pub todos: Vec<TODO>,
 }
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct TODODir {
     pub name: String,
     pub files: Vec<TODOFile>,

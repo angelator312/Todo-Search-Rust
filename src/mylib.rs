@@ -6,7 +6,7 @@ use crate::utils;
 
 use std::fs;
 /// path:PathOfDirectory;only_dirs or only_files
-pub fn list_files_or_directories_in_directory(path: String, files_or_dirs: bool) -> Vec<String> {
+pub fn list_files_or_directories_in_directory(path: &String, files_or_dirs: bool) -> Vec<String> {
     let mut arr: Vec<String> = vec![];
     // for file in WalkDir::new(path).into_iter().filter_map(|file| file.ok()) {
     for file in fs::read_dir(path).unwrap() {
@@ -21,42 +21,42 @@ pub fn list_files_or_directories_in_directory(path: String, files_or_dirs: bool)
     return arr;
 }
 
-pub fn list_files_in_directory(path: String) -> Vec<String> {
+pub fn list_files_in_directory(path: &String) -> Vec<String> {
     return list_files_or_directories_in_directory(path, false);
 }
 
-pub fn list_dirs_in_directory(path: String) -> Vec<String> {
+pub fn list_dirs_in_directory(path: &String) -> Vec<String> {
     return list_files_or_directories_in_directory(path, true);
 }
 
-pub fn print_everything_in_array(arr: Vec<String>) {
-    for e in arr.into_iter() {
-        println!("path:{}", e)
-    }
-}
+// pub fn print_everything_in_array(arr: Vec<String>) {
+//     for e in arr.into_iter() {
+//         log::log_path(&e)
+//     }
+// }
 // use regex::Regex;
 use std::fs::File;
 use std::io::Read;
 
-pub fn make_todo_from_directory(path: String) -> TODODir {
+pub fn scan_directory_for_todos(path: &String) -> TODODir {
     let mut todo_dir = TODODir {
-        name: utils::from_path_to_name(path.clone()),
+        name: utils::from_path_to_name(path),
         files: vec![],
         dirs: vec![],
     };
-    for e in list_dirs_in_directory(path.clone()).into_iter() {
+    for e in list_dirs_in_directory(path).into_iter() {
         log::log_dir_name(&e);
-        todo_dir.dirs.push(make_todo_from_directory(e));
+        todo_dir.dirs.push(scan_directory_for_todos(&e));
     }
     for e in list_files_in_directory(path).into_iter() {
-        println!("file:{}", e);
-        todo_dir.files.push(make_todo_from_file(e));
+        log::log_file_name(&e);
+        todo_dir.files.push(scan_file_for_todo(&e));
     }
     return todo_dir;
 }
 
-pub fn make_todo_from_file(path: String) -> TODOFile {
-    let name = utils::from_path_to_name(path.clone());
+pub fn scan_file_for_todo(path: &String) -> TODOFile {
+    let name = utils::from_path_to_name(path);
     let mut file = File::open(path).expect("Failed to open file");
     let mut content = String::new();
     file.read_to_string(&mut content)
@@ -69,7 +69,7 @@ pub fn make_todo_from_file(path: String) -> TODOFile {
     };
     let mut line = 0;
     for e in lines {
-        now_todo = make_todo_from_line(String::from(e));
+        now_todo = scan_line_for_todo(&e.to_string());
         if now_todo.line == -1 {
             continue;
         }
@@ -80,7 +80,7 @@ pub fn make_todo_from_file(path: String) -> TODOFile {
     return file_todo;
 }
 
-pub fn make_todo_from_line(line: String) -> TODO {
+pub fn scan_line_for_todo(line: &String) -> TODO {
     if let Some(todo) = line.find("TODO:") {
         return TODO {
             text: { utils::string_sub_to_end(line, todo) },
@@ -92,7 +92,4 @@ pub fn make_todo_from_line(line: String) -> TODO {
             line: -1,
         };
     }
-    // println!("is_todo:{} at line: {}", !is_todo.is_none(), line);
-    // if is_todo.is_none() {
-    // }
 }

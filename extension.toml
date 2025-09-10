@@ -12,5 +12,5 @@ description = "echoes the provided input"
 requires_argument = true
 
 [slash_commands.pick-one]
-description = "pick one of three options"
-requires_argument = true
+description="pick-one"
+requires_argument=true

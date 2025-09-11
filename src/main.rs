@@ -8,7 +8,7 @@ mod utils;
 
 const SCAN_DIRECTORY_COMMAND: &str = "scan";
 const DONE_FILE_COMMAND: &str = "mark-done";
-const DEFAULT_DIRECTORY_FOR_SCAN: &str = "./tests";
+const DEFAULT_DIRECTORY_FOR_SCAN: &str = "./";
 
 /// ### Usage
 /// todo-search <command> <path>
